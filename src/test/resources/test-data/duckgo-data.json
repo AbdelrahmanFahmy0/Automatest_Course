@@ -1,4 +1,19 @@
 {
-  "email": "user_",
-  "password": "P@ssw0rd"
+  "results": [
+    {
+      "searchKey": "Selenium WebDriver",
+      "url": "https://www.selenium.dev/documentation/webdriver/",
+      "title": "WebDriver - Selenium"
+    },
+    {
+      "searchKey": "TestNG",
+      "url": "https://www.tutorialspoint.com/testng/index.htm",
+      "title": "TestNG Tutorial"
+    },
+    {
+      "searchKey": "Cucumber IO",
+      "url": "https://mvnrepository.com/artifact/io.cucumber",
+      "title": "Maven Repository: io.cucumber"
+    }
+  ]
 }

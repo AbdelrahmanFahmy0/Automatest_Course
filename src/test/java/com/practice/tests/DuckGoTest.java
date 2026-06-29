@@ -2,6 +2,7 @@ package com.practice.tests;
 
 import com.practice.drivers.Driver;
 import com.practice.pages.duckduckgo.LandingPage;
+import com.practice.utils.dataReader.JsonReader;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -12,6 +13,7 @@ public class DuckGoTest {
 
     // Variables
     Driver driver;
+    JsonReader duckGoData = new JsonReader("duckgo-data");
 
     // Hooks
     @BeforeMethod
@@ -41,21 +43,21 @@ public class DuckGoTest {
     @Test
     public void checkFirstSearchResultURL() {
         new LandingPage(driver.get())
-                .search("Selenium WebDriver")
-                .checkResultLink(1, "https://www.selenium.dev/documentation/webdriver/");
+                .search(duckGoData.getJsonData("results[0].searchKey"))
+                .checkResultLink(1, duckGoData.getJsonData("results[0].url"));
     }
 
-    @Test
+    @Test()
     public void checkForthSearchResultTitle() {
         new LandingPage(driver.get())
-                .search("TestNG")
-                .checkResultTitle(4, "TestNG Tutorial");
+                .search(duckGoData.getJsonData("results[1].searchKey"))
+                .checkResultTitle(4, duckGoData.getJsonData("results[1].title"));
     }
 
     @Test
     public void checkSecondSearchResultURL() {
         new LandingPage(driver.get())
-                .search("Cucumber IO")
+                .search(duckGoData.getJsonData("results[2].searchKey"))
                 .checkResultLinkContainsText(2, "https://www.linkedin.com");
     }
 }
