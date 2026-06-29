@@ -46,6 +46,8 @@ public class SearchResultsPage {
         System.out.println(getText(driver, resultTitle(2)));
         System.out.println(getText(driver, resultTitle(3)));
         System.out.println(getText(driver, resultTitle(4)));
+        System.out.println(getText(driver, resultTitle(5)));
+        System.out.println(getText(driver, resultTitle(6)));
 
         String actualTitle = getText(driver, resultTitle(resultIndex));
         Assert.assertEquals(actualTitle, expectedTitle);
