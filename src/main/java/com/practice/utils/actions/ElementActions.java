@@ -37,7 +37,14 @@ public class ElementActions {
         return findElement(driver, locator).getText();
     }
 
+    public static String getAttributeValue(WebDriver driver, By locator, String attributeName) {
+        scrollToElementJS(driver, locator);
+        waitUntilVisible(driver, locator);
+        return findElement(driver, locator).getAttribute(attributeName);
+    }
+
     public static boolean isDisplayed(WebDriver driver, By locator) {
+        waitUntilVisible(driver, locator);
         return findElement(driver, locator).isDisplayed();
     }
 

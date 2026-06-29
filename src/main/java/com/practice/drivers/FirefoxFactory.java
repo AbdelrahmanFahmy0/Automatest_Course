@@ -24,7 +24,7 @@ public class FirefoxFactory extends AbstractDriver {
         options.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
         options.setCapability(CapabilityType.ENABLE_DOWNLOADS, true);
         options.setAcceptInsecureCerts(true);
-        if (com.practice.utils.dataReader.PropertyReader.getProperty("executionType").equalsIgnoreCase("LocalHeadless")) {
+        if (com.practice.utils.dataReader.PropertyReader.getProperty("ExecutionType").equalsIgnoreCase("LocalHeadless")) {
             options.addArguments("--headless");
         }
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);

@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
+import static com.practice.utils.actions.ElementActions.getAttributeValue;
 import static com.practice.utils.actions.ElementActions.getText;
 
 public class SearchResultsPage {
@@ -18,11 +19,11 @@ public class SearchResultsPage {
     // Locators
 
     // Dynamic Locators
-    public By resultLink(int index) {
+    private By resultLink(int index) {
         return By.xpath("//li[@data-layout='organic'][" + index + "]//a[@data-testid='result-extras-url-link']");
     }
 
-    public By resultTitle(int index) {
+    private By resultTitle(int index) {
         return By.xpath("//li[@data-layout='organic'][" + index + "]//h2//span");
     }
 
@@ -30,13 +31,13 @@ public class SearchResultsPage {
 
     // Assertions
     public SearchResultsPage checkResultLink(int resultIndex, String expectedLink) {
-        String actualLink = getText(driver, resultLink(resultIndex));
+        String actualLink = getAttributeValue(driver, resultLink(resultIndex), "href");
         Assert.assertEquals(actualLink, expectedLink);
         return this;
     }
 
     public SearchResultsPage checkResultLinkContainsText(int resultIndex, String expectedLinkText) {
-        boolean linkHasText = getText(driver, resultLink(resultIndex)).contains(expectedLinkText);
+        boolean linkHasText = getAttributeValue(driver, resultLink(resultIndex), "href").contains(expectedLinkText);
         Assert.assertTrue(linkHasText);
         return this;
     }
