@@ -6,6 +6,7 @@ import org.testng.Assert;
 
 import static com.practice.utils.actions.BrowserActions.navigateTo;
 import static com.practice.utils.actions.ElementActions.*;
+import static com.practice.utils.dataReader.PropertyReader.getProperty;
 
 public class UploadPage {
 
@@ -22,8 +23,8 @@ public class UploadPage {
     private final By successUploadMessage = By.xpath("//h3[text() = 'File Uploaded!']");
 
     // Actions
-    public UploadPage navigate(String URL) {
-        navigateTo(driver, URL);
+    public UploadPage navigate() {
+        navigateTo(driver, getProperty("herokuUploadUrl"));
         return this;
     }
 

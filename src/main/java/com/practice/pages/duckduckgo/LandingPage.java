@@ -7,6 +7,7 @@ import org.testng.Assert;
 
 import static com.practice.utils.actions.BrowserActions.*;
 import static com.practice.utils.actions.ElementActions.*;
+import static com.practice.utils.dataReader.PropertyReader.getProperty;
 
 public class LandingPage {
 
@@ -22,8 +23,8 @@ public class LandingPage {
     private final By searchBar = By.id("searchbox_input");
 
     // Actions
-    public LandingPage navigate(String URL) {
-        navigateTo(driver, URL);
+    public LandingPage navigate() {
+        navigateTo(driver, getProperty("duckGoUrl"));
         return this;
     }
 

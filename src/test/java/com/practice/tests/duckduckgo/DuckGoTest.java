@@ -7,8 +7,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.practice.utils.dataReader.PropertyReader.getProperty;
-
 public class DuckGoTest {
 
     // Variables
@@ -19,7 +17,7 @@ public class DuckGoTest {
     @BeforeMethod
     public void setUp() {
         driver = new Driver();
-        new LandingPage(driver.get()).navigate(getProperty("duckGoUrl"));
+        new LandingPage(driver.get()).navigate();
     }
 
     @AfterMethod

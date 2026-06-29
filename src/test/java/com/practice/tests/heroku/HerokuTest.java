@@ -7,8 +7,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.practice.utils.dataReader.PropertyReader.getProperty;
-
 public class HerokuTest {
 
     // Variables
@@ -29,7 +27,7 @@ public class HerokuTest {
     @Test
     public void checkStatusOfCheckboxes() {
         new CheckboxesPage(driver.get())
-                .navigate(getProperty("herokuCheckboxes"))
+                .navigate()
                 .checkCheckbox(1)
                 .assertCheckboxIsChecked(1)
                 .assertCheckboxIsChecked(2);
@@ -38,7 +36,7 @@ public class HerokuTest {
     @Test
     public void checkFileUploading() {
         new UploadPage(driver.get())
-                .navigate(getProperty("herokuUpload"))
+                .navigate()
                 .chooseFile("assets/example.png")
                 .clickUploadButton()
                 .checkFileIsUploaded();

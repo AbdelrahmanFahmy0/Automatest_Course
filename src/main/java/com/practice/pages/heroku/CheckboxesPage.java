@@ -6,6 +6,7 @@ import org.testng.Assert;
 
 import static com.practice.utils.actions.BrowserActions.navigateTo;
 import static com.practice.utils.actions.ElementActions.*;
+import static com.practice.utils.dataReader.PropertyReader.getProperty;
 
 public class CheckboxesPage {
 
@@ -22,8 +23,8 @@ public class CheckboxesPage {
     }
 
     // Actions
-    public CheckboxesPage navigate(String URL) {
-        navigateTo(driver, URL);
+    public CheckboxesPage navigate() {
+        navigateTo(driver, getProperty("herokuCheckboxesUrl"));
         return this;
     }
 
