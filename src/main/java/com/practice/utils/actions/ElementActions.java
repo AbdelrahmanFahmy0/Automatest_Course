@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import java.io.File;
 
@@ -49,6 +50,14 @@ public class ElementActions {
         waitUntilVisible(driver, locator);
         scrollToElementJS(driver, locator);
         return findElement(driver, locator).getAttribute(attributeName);
+    }
+
+    public static void dragAndDrop(WebDriver driver, By source, By destination) {
+        waitUntilVisible(driver, source);
+        waitUntilVisible(driver, destination);
+        scrollToElementJS(driver, source);
+        new Actions(driver).dragAndDrop(findElement(driver, source),
+                findElement(driver, destination)).perform();
     }
 
     public static boolean isDisplayed(WebDriver driver, By locator) {
