@@ -5,6 +5,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
+import static com.practice.utils.actions.BrowserActions.getTitle;
+import static com.practice.utils.actions.ElementActions.fill;
+import static com.practice.utils.actions.ElementActions.isDisplayed;
+
 public class LandingPage {
 
     WebDriver driver;
@@ -20,21 +24,21 @@ public class LandingPage {
 
     // Actions
     private SearchResultsPage search(String searchText) {
-        driver.findElement(searchBar).sendKeys(searchText);
-        driver.findElement(searchBar).sendKeys(Keys.ENTER);
+        fill(driver, searchBar, searchText);
+        fill(driver, searchBar, Keys.ENTER);
         return new SearchResultsPage(driver);
     }
 
     // Assertions
     public LandingPage checkPageTitle(String title) {
-        String actualTitle = driver.getTitle();
+        String actualTitle = getTitle(driver);
         Assert.assertEquals(actualTitle, title);
         return this;
     }
 
     public LandingPage checkLogoIsDisplayed() {
-        boolean isDisplayed = driver.findElement(duckLogo).isDisplayed();
-        Assert.assertTrue(isDisplayed);
+        boolean logoIsDisplayed = isDisplayed(driver, duckLogo);
+        Assert.assertTrue(logoIsDisplayed);
         return this;
     }
 }

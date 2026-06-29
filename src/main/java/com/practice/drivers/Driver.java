@@ -2,7 +2,6 @@ package com.practice.drivers;
 
 import com.practice.utils.dataReader.PropertyReader;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ThreadGuard;
 
 public class Driver {
 

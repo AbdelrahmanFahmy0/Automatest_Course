@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
+import static com.practice.utils.actions.ElementActions.getText;
+
 public class SearchResultsPage {
 
     WebDriver driver;
@@ -28,19 +30,19 @@ public class SearchResultsPage {
 
     // Assertions
     public SearchResultsPage checkResultLink(int resultIndex, String expectedLink) {
-        String actualLink = driver.findElement(resultLink(resultIndex)).getText();
+        String actualLink = getText(driver, resultLink(resultIndex));
         Assert.assertEquals(actualLink, expectedLink);
         return this;
     }
 
     public SearchResultsPage checkResultLinkContainsText(int resultIndex, String expectedLinkText) {
-        boolean linkHasText = driver.findElement(resultLink(resultIndex)).getText().contains(expectedLinkText);
+        boolean linkHasText = getText(driver, resultLink(resultIndex)).contains(expectedLinkText);
         Assert.assertTrue(linkHasText);
         return this;
     }
 
     public SearchResultsPage checkResultTitle(int resultIndex, String expectedTitle) {
-        String actualTitle = driver.findElement(resultTitle(resultIndex)).getText();
+        String actualTitle = getText(driver, resultTitle(resultIndex));
         Assert.assertEquals(actualTitle, expectedTitle);
         return this;
     }
