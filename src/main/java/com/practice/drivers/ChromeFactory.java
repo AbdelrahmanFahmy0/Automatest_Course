@@ -25,6 +25,7 @@ public class ChromeFactory extends AbstractDriver {
         options.setAcceptInsecureCerts(true);
         if (PropertyReader.getProperty("ExecutionType").equalsIgnoreCase("LocalHeadless")) {
             options.addArguments("--headless");
+            options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36");
         }
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         return options;

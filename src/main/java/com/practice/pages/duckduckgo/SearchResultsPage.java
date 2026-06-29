@@ -19,11 +19,11 @@ public class SearchResultsPage {
 
     // Dynamic Locators
     private By resultLink(int index) {
-        return By.xpath("//li[@data-layout='organic'][" + index + "]//a[@data-testid='result-extras-url-link']");
+        return By.xpath("(//a[@data-testid='result-extras-url-link'])[" + index + "]");
     }
 
     private By resultTitle(int index) {
-        return By.xpath("//li[@data-layout='organic'][" + index + "]//h2//span");
+        return By.xpath("(//a[@data-testid='result-title-a'])[" + index + "]/span");
     }
 
     // Actions
