@@ -5,10 +5,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
-import static com.practice.utils.actions.BrowserActions.getTitle;
-import static com.practice.utils.actions.BrowserActions.navigateTo;
-import static com.practice.utils.actions.ElementActions.fill;
-import static com.practice.utils.actions.ElementActions.isDisplayed;
+import static com.practice.utils.actions.BrowserActions.*;
+import static com.practice.utils.actions.ElementActions.*;
 
 public class LandingPage {
 

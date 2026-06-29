@@ -1,4 +1,4 @@
-package com.practice.tests;
+package com.practice.tests.duckduckgo;
 
 import com.practice.drivers.Driver;
 import com.practice.pages.duckduckgo.LandingPage;

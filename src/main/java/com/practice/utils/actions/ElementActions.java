@@ -5,6 +5,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.io.File;
+
 import static com.practice.utils.WaitManager.waitUntilClickable;
 import static com.practice.utils.WaitManager.waitUntilVisible;
 
@@ -14,38 +16,49 @@ public class ElementActions {
     }
 
     public static void click(WebDriver driver, By locator) {
-        scrollToElementJS(driver, locator);
         waitUntilClickable(driver, locator);
+        scrollToElementJS(driver, locator);
         findElement(driver, locator).click();
     }
 
     public static void fill(WebDriver driver, By locator, String text) {
-        scrollToElementJS(driver, locator);
         waitUntilVisible(driver, locator);
+        scrollToElementJS(driver, locator);
         findElement(driver, locator).sendKeys(text);
     }
 
     public static void fill(WebDriver driver, By locator, Keys key) {
-        scrollToElementJS(driver, locator);
         waitUntilVisible(driver, locator);
+        scrollToElementJS(driver, locator);
         findElement(driver, locator).sendKeys(key);
     }
 
-    public static String getText(WebDriver driver, By locator) {
-        scrollToElementJS(driver, locator);
+    public static void uploadFile(WebDriver driver, By locator, String filePath) {
         waitUntilVisible(driver, locator);
+        scrollToElementJS(driver, locator);
+        findElement(driver, locator).sendKeys(new File("src/test/resources/" + filePath).getAbsolutePath());
+    }
+
+    public static String getText(WebDriver driver, By locator) {
+        waitUntilVisible(driver, locator);
+        scrollToElementJS(driver, locator);
         return findElement(driver, locator).getText();
     }
 
     public static String getAttributeValue(WebDriver driver, By locator, String attributeName) {
-        scrollToElementJS(driver, locator);
         waitUntilVisible(driver, locator);
+        scrollToElementJS(driver, locator);
         return findElement(driver, locator).getAttribute(attributeName);
     }
 
     public static boolean isDisplayed(WebDriver driver, By locator) {
         waitUntilVisible(driver, locator);
         return findElement(driver, locator).isDisplayed();
+    }
+
+    public static boolean isChecked(WebDriver driver, By locator) {
+        waitUntilVisible(driver, locator);
+        return findElement(driver, locator).isSelected();
     }
 
     public static WebElement findElement(WebDriver driver, By locator) {

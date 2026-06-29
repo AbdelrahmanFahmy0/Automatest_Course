@@ -4,8 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
-import static com.practice.utils.actions.ElementActions.getAttributeValue;
-import static com.practice.utils.actions.ElementActions.getText;
+import static com.practice.utils.actions.ElementActions.*;
 
 public class SearchResultsPage {
 
