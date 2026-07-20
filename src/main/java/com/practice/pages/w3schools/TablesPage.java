@@ -1,19 +1,16 @@
 package com.practice.pages.w3schools;
 
+import com.practice.drivers.Driver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
-import static com.practice.utils.actions.BrowserActions.navigateTo;
-import static com.practice.utils.actions.ElementActions.getText;
 import static com.practice.utils.dataReader.PropertyReader.getProperty;
 
 public class TablesPage {
 
-    WebDriver driver;
+    Driver driver;
 
     // Constructor
-    public TablesPage(WebDriver driver) {
+    public TablesPage(Driver driver) {
         this.driver = driver;
     }
 
@@ -24,14 +21,13 @@ public class TablesPage {
 
     // Actions
     public TablesPage navigate() {
-        navigateTo(driver, getProperty("w3schoolsUrl"));
+        driver.browser().navigateTo(getProperty("w3schoolsUrl"));
         return this;
     }
 
     // Assertions
     public TablesPage checkCountryOfCompany(String company, String expectedCountry) {
-        String actualCountry = getText(driver, country(company));
-        Assert.assertEquals(actualCountry, expectedCountry);
+        driver.check().checkTextEquals(country(company), expectedCountry);
         return this;
     }
 }

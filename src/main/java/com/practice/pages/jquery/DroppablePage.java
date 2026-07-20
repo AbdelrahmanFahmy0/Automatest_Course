@@ -1,20 +1,16 @@
 package com.practice.pages.jquery;
 
+import com.practice.drivers.Driver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
-import static com.practice.utils.actions.BrowserActions.navigateTo;
-import static com.practice.utils.actions.ElementActions.dragAndDrop;
-import static com.practice.utils.actions.ElementActions.getText;
 import static com.practice.utils.dataReader.PropertyReader.getProperty;
 
 public class DroppablePage {
 
-    WebDriver driver;
+    Driver driver;
 
     // Constructor
-    public DroppablePage(WebDriver driver) {
+    public DroppablePage(Driver driver) {
         this.driver = driver;
     }
 
@@ -25,19 +21,18 @@ public class DroppablePage {
 
     // Actions
     public DroppablePage navigate() {
-        navigateTo(driver, getProperty("jqueryUrl"));
+        driver.browser().navigateTo(getProperty("jqueryUrl"));
         return this;
     }
 
     public DroppablePage dragBoxAndDrop() {
-        dragAndDrop(driver, draggableBox, droppableBox);
+        driver.action().dragAndDrop(draggableBox, droppableBox);
         return this;
     }
 
     // Assertions
     public DroppablePage checkBoxIsDragged() {
-        String actualText = getText(driver, droppableBoxText);
-        Assert.assertEquals(actualText, "Dropped!");
+        driver.check().checkTextEquals(droppableBoxText, "Dropped!");
         return this;
     }
 }

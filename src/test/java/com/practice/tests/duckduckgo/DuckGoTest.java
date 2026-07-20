@@ -13,21 +13,21 @@ public class DuckGoTest extends TestCase {
     // Tests
     @Test
     public void checkDuckGoPageTitle() {
-        new LandingPage(driver.get())
+        new LandingPage(driver)
                 .navigate()
                 .checkPageTitle("Google");
     }
 
     @Test
     public void checkDuckGoLogoIsDisplayed() {
-        new LandingPage(driver.get())
+        new LandingPage(driver)
                 .navigate()
                 .checkLogoIsDisplayed();
     }
 
     @Test
     public void checkFirstSearchResultURL() {
-        new LandingPage(driver.get())
+        new LandingPage(driver)
                 .navigate()
                 .search(duckGoData.getJsonData("results[0].searchKey"))
                 .checkResultLink(1, duckGoData.getJsonData("results[0].url"));
@@ -35,7 +35,7 @@ public class DuckGoTest extends TestCase {
 
     @Test()
     public void checkForthSearchResultTitle() {
-        new LandingPage(driver.get())
+        new LandingPage(driver)
                 .navigate()
                 .search(duckGoData.getJsonData("results[1].searchKey"))
                 .checkResultTitle(4, duckGoData.getJsonData("results[1].title"));
@@ -43,7 +43,7 @@ public class DuckGoTest extends TestCase {
 
     @Test
     public void checkSecondSearchResultURL() {
-        new LandingPage(driver.get())
+        new LandingPage(driver)
                 .navigate()
                 .search(duckGoData.getJsonData("results[2].searchKey"))
                 .checkResultLinkContainsText(2, "https://www.linkedin.com");

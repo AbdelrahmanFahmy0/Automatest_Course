@@ -10,7 +10,7 @@ public class HerokuTest extends TestCase {
     // Tests
     @Test
     public void checkStatusOfCheckboxes() {
-        new CheckboxesPage(driver.get())
+        new CheckboxesPage(driver)
                 .navigate()
                 .checkCheckbox(1)
                 .assertCheckboxIsChecked(1)
@@ -19,7 +19,7 @@ public class HerokuTest extends TestCase {
 
     @Test
     public void checkFileUploading() {
-        new UploadPage(driver.get())
+        new UploadPage(driver)
                 .navigate()
                 .chooseFile("assets/example.png")
                 .clickUploadButton()

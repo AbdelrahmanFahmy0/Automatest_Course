@@ -13,7 +13,7 @@ public class TablesTest extends TestCase {
     // Tests
     @Test
     public void checkCountryOfCompany() {
-        new TablesPage(driver.get())
+        new TablesPage(driver)
                 .navigate()
                 .checkCountryOfCompany(w3Data.getJsonData("company"), w3Data.getJsonData("country"));
     }

@@ -1,20 +1,17 @@
 package com.practice.pages.duckduckgo;
 
+import com.practice.drivers.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
-import static com.practice.utils.actions.BrowserActions.*;
-import static com.practice.utils.actions.ElementActions.*;
 import static com.practice.utils.dataReader.PropertyReader.getProperty;
 
 public class LandingPage {
 
-    WebDriver driver;
+    Driver driver;
 
     // Constructor
-    public LandingPage(WebDriver driver) {
+    public LandingPage(Driver driver) {
         this.driver = driver;
     }
 
@@ -24,26 +21,23 @@ public class LandingPage {
 
     // Actions
     public LandingPage navigate() {
-        navigateTo(driver, getProperty("duckGoUrl"));
+        driver.browser().navigateTo(getProperty("duckGoUrl"));
         return this;
     }
 
     public SearchResultsPage search(String searchText) {
-        fill(driver, searchBar, searchText);
-        fill(driver, searchBar, Keys.ENTER);
+        driver.action().fill(searchBar, searchText, Keys.ENTER);
         return new SearchResultsPage(driver);
     }
 
     // Assertions
     public LandingPage checkPageTitle(String title) {
-        String actualTitle = getTitle(driver);
-        Assert.assertEquals(actualTitle, title);
+        driver.check().checkTitle(title);
         return this;
     }
 
     public LandingPage checkLogoIsDisplayed() {
-        boolean logoIsDisplayed = isDisplayed(driver, duckLogo);
-        Assert.assertTrue(logoIsDisplayed);
+        driver.check().exists(duckLogo);
         return this;
     }
 }

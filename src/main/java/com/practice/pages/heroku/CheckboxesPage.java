@@ -1,19 +1,16 @@
 package com.practice.pages.heroku;
 
+import com.practice.drivers.Driver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
-import static com.practice.utils.actions.BrowserActions.navigateTo;
-import static com.practice.utils.actions.ElementActions.*;
 import static com.practice.utils.dataReader.PropertyReader.getProperty;
 
 public class CheckboxesPage {
 
-    WebDriver driver;
+    Driver driver;
 
     // Constructor
-    public CheckboxesPage(WebDriver driver) {
+    public CheckboxesPage(Driver driver) {
         this.driver = driver;
     }
 
@@ -24,34 +21,18 @@ public class CheckboxesPage {
 
     // Actions
     public CheckboxesPage navigate() {
-        navigateTo(driver, getProperty("herokuCheckboxesUrl"));
+        driver.browser().navigateTo(getProperty("herokuCheckboxesUrl"));
         return this;
     }
 
     public CheckboxesPage checkCheckbox(int index) {
-        if (!isChecked(driver, checkbox(index))) {
-            click(driver, checkbox(index));
-        }
-        return this;
-    }
-
-    public CheckboxesPage uncheckCheckbox(int index) {
-        if (isChecked(driver, checkbox(index))) {
-            click(driver, checkbox(index));
-        }
+        driver.action().check(checkbox(index), true);
         return this;
     }
 
     // Assertions
     public CheckboxesPage assertCheckboxIsChecked(int index) {
-        boolean isChecked = isChecked(driver, checkbox(index));
-        Assert.assertTrue(isChecked);
-        return this;
-    }
-
-    public CheckboxesPage assertCheckboxIsNotChecked(int index) {
-        boolean isChecked = isChecked(driver, checkbox(index));
-        Assert.assertFalse(isChecked);
+        driver.check().checkCheckboxIsChecked(checkbox(index));
         return this;
     }
 }

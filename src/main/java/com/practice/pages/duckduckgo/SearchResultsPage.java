@@ -1,17 +1,14 @@
 package com.practice.pages.duckduckgo;
 
+import com.practice.drivers.Driver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
-
-import static com.practice.utils.actions.ElementActions.*;
 
 public class SearchResultsPage {
 
-    WebDriver driver;
+    Driver driver;
 
     // Constructor
-    public SearchResultsPage(WebDriver driver) {
+    public SearchResultsPage(Driver driver) {
         this.driver = driver;
     }
 
@@ -30,20 +27,17 @@ public class SearchResultsPage {
 
     // Assertions
     public SearchResultsPage checkResultLink(int resultIndex, String expectedLink) {
-        String actualLink = getAttributeValue(driver, resultLink(resultIndex), "href");
-        Assert.assertEquals(actualLink, expectedLink);
+        driver.check().checkAttributeEquals(resultLink(resultIndex), "href", expectedLink);
         return this;
     }
 
     public SearchResultsPage checkResultLinkContainsText(int resultIndex, String expectedLinkText) {
-        boolean linkHasText = getAttributeValue(driver, resultLink(resultIndex), "href").contains(expectedLinkText);
-        Assert.assertTrue(linkHasText);
+        driver.check().checkAttributeContains(resultLink(resultIndex), "href", expectedLinkText);
         return this;
     }
 
     public SearchResultsPage checkResultTitle(int resultIndex, String expectedTitle) {
-        String actualTitle = getText(driver, resultTitle(resultIndex));
-        Assert.assertEquals(actualTitle, expectedTitle);
+        driver.check().checkTextEquals(resultTitle(resultIndex), expectedTitle);
         return this;
     }
 }

@@ -9,7 +9,7 @@ public class DroppableTest extends TestCase {
     // Tests
     @Test
     public void checkDraggingAndDropping() {
-        new DroppablePage(driver.get())
+        new DroppablePage(driver)
                 .navigate()
                 .dragBoxAndDrop()
                 .checkBoxIsDragged();
