@@ -14,6 +14,12 @@ public enum Browser {
         public AbstractDriver getDriverFactory() {
             return new FirefoxFactory();
         }
+    },
+    EDGE {
+        @Override
+        public AbstractDriver getDriverFactory() {
+            return new EdgeFactory();
+        }
     };
 
     // Abstract method to be implemented by each enum constant
