@@ -248,7 +248,6 @@ public class ActionsBot {
      * @return The current instance of ActionsBot for method chaining.
      */
     public ActionsBot scrollToElement(By locator) {
-        LogsManager.info("Scrolled to element: " + locator);
         ((JavascriptExecutor) driver).executeScript(
                 """ 
                         arguments[0].scrollIntoView({behaviour:"auto",block:"center",inline:"center"});""", driver.findElement(locator));

@@ -16,8 +16,8 @@ public class LandingPage {
     }
 
     // Locators
-    private final By duckLogo = By.xpath("(//a[@aria-label='Learn about DuckDuckGo']//img)[2]");
-    private final By searchBar = By.id("searchbox_input");
+    private final By duckLogo = By.xpath("//a[@aria-label='Learn about DuckDuckGo']//img");
+    private final By searchBar = By.name("q");
 
     // Actions
     public LandingPage navigate() {
