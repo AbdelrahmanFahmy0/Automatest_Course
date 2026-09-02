@@ -1,5 +1,6 @@
 package com.practice.utils.dataReader;
 
+import com.practice.utils.logs.LogsManager;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -26,11 +27,13 @@ public class PropertyReader {
                 try {
                     properties.load(new FileInputStream(file));
                 } catch (IOException e) {
+                    LogsManager.warn("Failed to load properties file:", file.getName(), "Reason:", e.getMessage());
                     throw new RuntimeException(e);
                 }
                 properties.putAll(System.getProperties());
                 System.getProperties().putAll(properties);
             });
+            LogsManager.info("All properties loaded successfully.");
             return properties;
         } catch (Exception e) {
             return null;
@@ -48,6 +51,7 @@ public class PropertyReader {
         try {
             return System.getProperty(key);
         } catch (Exception e) {
+            LogsManager.warn("Property not found or is empty:", key);
             return "";
         }
     }

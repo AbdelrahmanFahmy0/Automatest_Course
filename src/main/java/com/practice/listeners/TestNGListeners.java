@@ -25,7 +25,6 @@ public class TestNGListeners implements ISuiteListener, IExecutionListener, IInv
         cleanTestOutputDirectories();
         LogsManager.info("Test output cleanup completed.");
         PropertyReader.loadProperties();
-        LogsManager.info("Execution properties loaded.");
         LogsManager.info("Test execution started.");
     }
 

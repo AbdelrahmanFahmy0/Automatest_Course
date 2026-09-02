@@ -1,6 +1,7 @@
 package com.practice.utils.bots;
 
 import com.practice.utils.WaitManager;
+import com.practice.utils.logs.LogsManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -35,6 +36,7 @@ public class ActionsBot {
             driver.findElement(locator).click();
             return true;
         });
+        LogsManager.info("Clicked on element: " + locator);
         return this;
     }
 
@@ -51,6 +53,7 @@ public class ActionsBot {
             driver.findElement(locator).click();
             return true;
         });
+        LogsManager.info("Checkbox state changed to '" + toCheck + "' for element: " + locator);
         return this;
     }
 
@@ -67,6 +70,7 @@ public class ActionsBot {
             driver.findElement(locator).sendKeys(input);
             return true;
         });
+        LogsManager.info("Typed text '" + java.util.Arrays.toString(input) + "' into element: " + locator);
         return this;
     }
 
@@ -82,6 +86,7 @@ public class ActionsBot {
             driver.findElement(locator).clear();
             return true;
         });
+        LogsManager.info("Cleared element: " + locator);
         return this;
     }
 
@@ -97,6 +102,7 @@ public class ActionsBot {
             new Actions(driver).moveToElement(driver.findElement(locator)).perform();
             return true;
         });
+        LogsManager.info("Hovered over element: " + locator);
         return this;
     }
 
@@ -115,6 +121,7 @@ public class ActionsBot {
                     .perform();
             return true;
         });
+        LogsManager.info("Dragged from element: " + source + " to element: " + target);
         return this;
     }
 
@@ -129,6 +136,7 @@ public class ActionsBot {
             new Actions(driver).sendKeys(keys).perform();
             return true;
         });
+        LogsManager.info("Pressed keys: " + java.util.Arrays.toString(keys));
         return this;
     }
 
@@ -145,6 +153,7 @@ public class ActionsBot {
             new Select(driver.findElement(locator)).selectByVisibleText(text);
             return true;
         });
+        LogsManager.info("Selected option '" + text + "' from element: " + locator);
         return this;
     }
 
@@ -161,6 +170,7 @@ public class ActionsBot {
             new Select(driver.findElement(locator)).selectByValue(value);
             return true;
         });
+        LogsManager.info("Selected option with value '" + value + "' from element: " + locator);
         return this;
     }
 
@@ -171,11 +181,13 @@ public class ActionsBot {
      * @return The text of the located element.
      */
     public String getText(By locator) {
-        return wait.fluentWait().until(driver -> {
+        String text = wait.fluentWait().until(driver -> {
                     scrollToElement(locator);
                     return driver.findElement(locator).getText();
                 }
         );
+        LogsManager.info("Retrieved text '" + text + "' from element: " + locator);
+        return text;
     }
 
     /**
@@ -186,11 +198,13 @@ public class ActionsBot {
      * @return The value of the specified DOM attribute.
      */
     public String getDomAttribute(By locator, String attribute) {
-        return wait.fluentWait().until(driver -> {
+        String value = wait.fluentWait().until(driver -> {
                     scrollToElement(locator);
                     return driver.findElement(locator).getDomAttribute(attribute);
                 }
         );
+        LogsManager.info("Retrieved attribute '" + attribute + "' with value '" + value + "' from element: " + locator);
+        return value;
     }
 
     /**
@@ -201,11 +215,13 @@ public class ActionsBot {
      * @return The value of the specified DOM property.
      */
     public String getDomProperty(By locator, String property) {
-        return wait.fluentWait().until(driver -> {
+        String value = wait.fluentWait().until(driver -> {
                     scrollToElement(locator);
                     return driver.findElement(locator).getDomProperty(property);
                 }
         );
+        LogsManager.info("Retrieved property '" + property + "' with value '" + value + "' from element: " + locator);
+        return value;
     }
 
     /**
@@ -221,6 +237,7 @@ public class ActionsBot {
             driver.findElement(locator).sendKeys(new File("src/test/resources/" + filePath).getAbsolutePath());
             return true;
         });
+        LogsManager.info("Uploaded file '" + filePath + "' to element: " + locator);
         return this;
     }
 
@@ -231,6 +248,7 @@ public class ActionsBot {
      * @return The current instance of ActionsBot for method chaining.
      */
     public ActionsBot scrollToElement(By locator) {
+        LogsManager.info("Scrolled to element: " + locator);
         ((JavascriptExecutor) driver).executeScript(
                 """ 
                         arguments[0].scrollIntoView({behaviour:"auto",block:"center",inline:"center"});""", driver.findElement(locator));

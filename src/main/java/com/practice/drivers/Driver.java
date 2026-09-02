@@ -4,6 +4,7 @@ import com.practice.utils.bots.ActionsBot;
 import com.practice.utils.bots.AssertionsBot;
 import com.practice.utils.bots.BrowserBot;
 import com.practice.utils.dataReader.PropertyReader;
+import com.practice.utils.logs.LogsManager;
 import org.openqa.selenium.WebDriver;
 
 public class Driver {
@@ -13,9 +14,11 @@ public class Driver {
     // Constructor to initialize the WebDriver based on the specified browser type
     public Driver() {
         String browser = PropertyReader.getProperty("TargetBrowser");
+        LogsManager.info("Initializing driver for browser:", browser);
         Browser browserType = Browser.valueOf(browser.toUpperCase());
         AbstractDriver abstractDriver = browserType.getDriverFactory();
         driver = abstractDriver.createDriver();
+        LogsManager.info("Driver initialized:", driver.getClass().getSimpleName());
     }
 
     // Bots
@@ -38,6 +41,6 @@ public class Driver {
 
     // Quit the WebDriver instance
     public void quit() {
-        driver.quit();
+        browser().quit();
     }
 }
