@@ -254,4 +254,136 @@ public class ActionsBot {
                         arguments[0].scrollIntoView({behaviour:"auto",block:"center",inline:"center"});""", driver.findElement(locator));
         return this;
     }
+
+    /**
+     * Double-clicks on an element located by the given locator.
+     *
+     * @param locator The locator of the element to double-click.
+     * @return The current instance of ActionsBot for method chaining.
+     */
+    public ActionsBot doubleClick(By locator) {
+        wait.fluentWait().until(driver -> {
+            scrollToElement(locator);
+            new Actions(driver).doubleClick(driver.findElement(locator)).perform();
+            return true;
+        });
+        LogsManager.info("Double-clicked on element: " + locator);
+        return this;
+    }
+
+    /**
+     * Right-clicks on an element located by the given locator.
+     *
+     * @param locator The locator of the element to right-click.
+     * @return The current instance of ActionsBot for method chaining.
+     */
+    public ActionsBot rightClick(By locator) {
+        wait.fluentWait().until(driver -> {
+            scrollToElement(locator);
+            new Actions(driver).contextClick(driver.findElement(locator)).perform();
+            return true;
+        });
+        LogsManager.info("Right-clicked on element: " + locator);
+        return this;
+    }
+
+    /**
+     * Clicks and holds on an element located by the given locator.
+     *
+     * @param locator The locator of the element to click and hold.
+     * @return The current instance of ActionsBot for method chaining.
+     */
+    public ActionsBot clickAndHold(By locator) {
+        wait.fluentWait().until(driver -> {
+            scrollToElement(locator);
+            new Actions(driver).clickAndHold(driver.findElement(locator)).perform();
+            return true;
+        });
+        LogsManager.info("Clicked and held on element: " + locator);
+        return this;
+    }
+
+    /**
+     * Selects an option from a dropdown by its index.
+     *
+     * @param locator The locator of the dropdown element.
+     * @param index   The index of the option to select (0-based).
+     * @return The current instance of ActionsBot for method chaining.
+     */
+    public ActionsBot selectByIndex(By locator, int index) {
+        wait.fluentWait().until(driver -> {
+            scrollToElement(locator);
+            new Select(driver.findElement(locator)).selectByIndex(index);
+            return true;
+        });
+        LogsManager.info("Selected option by index '" + index + "' from element: " + locator);
+        return this;
+    }
+
+    /**
+     * Deselects an option from a multi-select dropdown by its visible text.
+     *
+     * @param locator The locator of the multi-select dropdown element.
+     * @param text    The visible text of the option to deselect.
+     * @return The current instance of ActionsBot for method chaining.
+     */
+    public ActionsBot deselectByText(By locator, String text) {
+        wait.fluentWait().until(driver -> {
+            scrollToElement(locator);
+            new Select(driver.findElement(locator)).deselectByVisibleText(text);
+            return true;
+        });
+        LogsManager.info("Deselected option '" + text + "' from element: " + locator);
+        return this;
+    }
+
+    /**
+     * Deselects an option from a multi-select dropdown by its value.
+     *
+     * @param locator The locator of the multi-select dropdown element.
+     * @param value   The value of the option to deselect.
+     * @return The current instance of ActionsBot for method chaining.
+     */
+    public ActionsBot deselectByValue(By locator, String value) {
+        wait.fluentWait().until(driver -> {
+            scrollToElement(locator);
+            new Select(driver.findElement(locator)).deselectByValue(value);
+            return true;
+        });
+        LogsManager.info("Deselected option with value '" + value + "' from element: " + locator);
+        return this;
+    }
+
+    /**
+     * Deselects an option from a multi-select dropdown by its index.
+     *
+     * @param locator The locator of the multi-select dropdown element.
+     * @param index   The index of the option to deselect (0-based).
+     * @return The current instance of ActionsBot for method chaining.
+     */
+    public ActionsBot deselectByIndex(By locator, int index) {
+        wait.fluentWait().until(driver -> {
+            scrollToElement(locator);
+            new Select(driver.findElement(locator)).deselectByIndex(index);
+            return true;
+        });
+        LogsManager.info("Deselected option by index '" + index + "' from element: " + locator);
+        return this;
+    }
+
+    /**
+     * Deselects all selected options in a multi-select dropdown.
+     *
+     * @param locator The locator of the multi-select dropdown element.
+     * @return The current instance of ActionsBot for method chaining.
+     */
+    public ActionsBot deselectAll(By locator) {
+        wait.fluentWait().until(driver -> {
+            scrollToElement(locator);
+            new Select(driver.findElement(locator)).deselectAll();
+            return true;
+        });
+        LogsManager.info("Deselected all options from element: " + locator);
+        return this;
+    }
 }

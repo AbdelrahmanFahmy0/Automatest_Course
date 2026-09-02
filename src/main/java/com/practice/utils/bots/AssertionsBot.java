@@ -5,6 +5,7 @@ import com.practice.utils.logs.LogsManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 public class AssertionsBot {
@@ -150,6 +151,109 @@ public class AssertionsBot {
             actions.scrollToElement(locator);
             boolean isChecked = driver.findElement(locator).isSelected();
             Assert.assertTrue(isChecked, "Checkbox is not checked: " + locator);
+            return true;
+        });
+        return this;
+    }
+
+    /**
+     * Verifies that the specified checkbox is unchecked.
+     *
+     * @param locator The locator of the checkbox element.
+     * @return The current instance of AssertionsBot for method chaining.
+     */
+    public AssertionsBot checkCheckboxIsUnchecked(By locator) {
+        LogsManager.info("Verifying that checkbox is unchecked for " + locator);
+        wait.fluentWait().until(driver -> {
+            actions.scrollToElement(locator);
+            boolean isChecked = driver.findElement(locator).isSelected();
+            Assert.assertFalse(isChecked, "Checkbox is checked: " + locator);
+            return true;
+        });
+        return this;
+    }
+
+    /**
+     * Verifies that the text of the specified element contains the expected text.
+     *
+     * @param locator      The locator of the element.
+     * @param expectedText The text that should be contained in the element.
+     * @return The current instance of AssertionsBot for method chaining.
+     */
+    public AssertionsBot checkTextContains(By locator, String expectedText) {
+        LogsManager.info("Verifying that element text contains: " + expectedText + " for " + locator);
+        wait.fluentWait().until(driver -> {
+            actions.scrollToElement(locator);
+            String actualText = driver.findElement(locator).getText();
+            Assert.assertTrue(actualText.contains(expectedText), "Element text does not contain expected text: " + locator + " expected to contain: " + expectedText + " but found: " + actualText);
+            return true;
+        });
+        return this;
+    }
+
+    /**
+     * Verifies that the specified element is enabled.
+     *
+     * @param locator The locator of the element.
+     * @return The current instance of AssertionsBot for method chaining.
+     */
+    public AssertionsBot checkElementISEnabled(By locator) {
+        LogsManager.info("Verifying that element is enabled for " + locator);
+        wait.fluentWait().until(driver -> {
+            actions.scrollToElement(locator);
+            boolean isEnabled = driver.findElement(locator).isEnabled();
+            Assert.assertTrue(isEnabled, "Element is not enabled: " + locator);
+            return true;
+        });
+        return this;
+    }
+
+    /**
+     * Verifies that the specified element is disabled.
+     *
+     * @param locator The locator of the element.
+     * @return The current instance of AssertionsBot for method chaining.
+     */
+    public AssertionsBot checkElementIsDisabled(By locator) {
+        LogsManager.info("Verifying that element is disabled for " + locator);
+        wait.fluentWait().until(driver -> {
+            actions.scrollToElement(locator);
+            boolean isEnabled = driver.findElement(locator).isEnabled();
+            Assert.assertFalse(isEnabled, "Element is enabled: " + locator);
+            return true;
+        });
+        return this;
+    }
+
+    /**
+     * Verifies that the page URL contains the expected string.
+     *
+     * @param expectedUrlPart The expected URL string that should be contained in the current URL.
+     * @return The current instance of AssertionsBot for method chaining.
+     */
+    public AssertionsBot checkUrlContains(String expectedUrlPart) {
+        LogsManager.info("Verifying that page URL contains: " + expectedUrlPart);
+        wait.fluentWait().until(driver -> {
+            String actualUrl = driver.getCurrentUrl();
+            Assert.assertTrue(actualUrl.contains(expectedUrlPart), "Page URL does not contain expected URL part: " + expectedUrlPart + " but found: " + actualUrl);
+            return true;
+        });
+        return this;
+    }
+
+    /**
+     * Verifies that the option in a dropdown is selected.
+     *
+     * @param locator        The locator of the dropdown element.
+     * @param expectedOption The text of the expected selected option.
+     * @return The current instance of AssertionsBot for method chaining.
+     */
+    public AssertionsBot checkSelectedOption(By locator, String expectedOption) {
+        LogsManager.info("Verifying that selected option is: " + expectedOption + " for " + locator);
+        wait.fluentWait().until(driver -> {
+            actions.scrollToElement(locator);
+            String selectedText = new Select(driver.findElement(locator)).getFirstSelectedOption().getText();
+            Assert.assertEquals(selectedText, expectedOption, "Selected option does not match: " + locator + " expected: " + expectedOption + " but found: " + selectedText);
             return true;
         });
         return this;
