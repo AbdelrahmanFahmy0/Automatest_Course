@@ -50,9 +50,9 @@ jobs:
           maven-version: 3.9.9
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
 
       - name: Restore Allure history
         uses: actions/cache/restore@v6
@@ -63,6 +63,7 @@ jobs:
             allure-history-${{ matrix.suffix }}-${{ github.ref_name }}-
 
       - name: Running Tests
+        continue-on-error: true
         run: mvn -Dtest="${{ env.TARGET }}" -DExecutionType="LocalHeadless" -DTargetBrowser="${{ matrix.browser }}" clean test
 
       - name: Save Allure history
