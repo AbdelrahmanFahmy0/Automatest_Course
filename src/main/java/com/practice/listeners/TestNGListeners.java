@@ -10,6 +10,7 @@ import com.practice.utils.logs.ConsoleOutputCapture;
 import com.practice.utils.logs.LogsManager;
 import com.practice.utils.report.AllureAttachmentManager;
 import com.practice.utils.report.AllureEnvironmentManager;
+import com.practice.utils.report.AllureReportGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.*;
@@ -69,10 +70,10 @@ public class TestNGListeners implements ISuiteListener, IExecutionListener, IInv
     }
 
     public void onExecutionFinish() {
-//        AllureReportGenerator.generateReports(true);
-//        if (PropertyReader.getProperty("OpenAllureReportAfterExecution").equalsIgnoreCase("true")) {
-//            AllureReportGenerator.openReport(AllureReportGenerator.renameReport());
-//        }
+        AllureReportGenerator.generateReport();
+        if (PropertyReader.getProperty("OpenAllureReportAfterExecution").equalsIgnoreCase("true")) {
+            AllureReportGenerator.openReport();
+        }
         LogsManager.info("Test execution finished.");
     }
 
