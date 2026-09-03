@@ -1,10 +1,17 @@
 package com.practice.listeners;
 
+import com.practice.drivers.Driver;
+import com.practice.drivers.UITest;
+import com.practice.utils.ScreenshotsManager;
 import com.practice.utils.FileUtils;
 import com.practice.utils.Indexes;
 import com.practice.utils.dataReader.PropertyReader;
+import com.practice.utils.logs.ConsoleOutputCapture;
 import com.practice.utils.logs.LogsManager;
+import com.practice.utils.report.AllureAttachmentManager;
+import com.practice.utils.report.AllureEnvironmentManager;
 import org.apache.logging.log4j.LogManager;
+import org.openqa.selenium.WebDriver;
 import org.testng.*;
 
 import java.io.File;
@@ -22,19 +29,50 @@ public class TestNGListeners implements ISuiteListener, IExecutionListener, IInv
     }
 
     public void onExecutionStart() {
+        ConsoleOutputCapture.install();
         cleanTestOutputDirectories();
         LogsManager.info("Test output cleanup completed.");
         PropertyReader.loadProperties();
+        LogsManager.info("Properties loaded.");
         LogsManager.info("Test execution started.");
+        AllureEnvironmentManager.setEnvironmentVariables();
     }
 
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
         if (method.isTestMethod()) {
+            ConsoleOutputCapture.startCapture();
             LogsManager.info("Test started:", testResult.getName());
         }
     }
 
+    public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
+        WebDriver driver = Driver.get();
+        if (method.isTestMethod()) {
+            // Check if the test class is annotated with @UITest before taking screenshots
+            if (testResult.getInstance().getClass().isAnnotationPresent(UITest.class)) {
+                ScreenshotsManager.takeFullPageScreenshot(driver, testResult.getName() + " - Screenshot");
+            }
+            AllureAttachmentManager.attachLogs(ConsoleOutputCapture.stopCapture());
+        }
+    }
+
+    public void onTestSuccess(ITestResult result) {
+        LogsManager.info("✅ TEST PASSED: " + result.getName() + " (Duration: " + getDuration(result) + " ms)");
+    }
+
+    public void onTestFailure(ITestResult result) {
+        LogsManager.info("❌ TEST FAILED: " + result.getName() + " (Duration: " + getDuration(result) + " ms)");
+    }
+
+    public void onTestSkipped(ITestResult result) {
+        LogsManager.info("⏭  TEST SKIPPED: " + result.getName() + " (Duration: " + getDuration(result) + " ms)");
+    }
+
     public void onExecutionFinish() {
+//        AllureReportGenerator.generateReports(true);
+//        if (PropertyReader.getProperty("OpenAllureReportAfterExecution").equalsIgnoreCase("true")) {
+//            AllureReportGenerator.openReport(AllureReportGenerator.renameReport());
+//        }
         LogsManager.info("Test execution finished.");
     }
 
@@ -50,8 +88,10 @@ public class TestNGListeners implements ISuiteListener, IExecutionListener, IInv
         LogsManager.info("╚══════════════════════════════════════════════╝");
     }
 
-    // Cleaning and creating dirs (logs, screenshots, recordings,allure-results)
+    // Cleaning and creating dirs (logs, screenshots, recordings, allure-results)
     private void cleanTestOutputDirectories() {
+        FileUtils.cleanDirectory(new File(Indexes.ALLURE_RESULTS_PATH));
+        FileUtils.cleanDirectory(new File(Indexes.SCREENSHOTS_PATH));
         LogManager.shutdown();
         FileUtils.forceFileDelete(new File(Indexes.LOGS_PATH + "logs.log"));
     }
@@ -59,5 +99,19 @@ public class TestNGListeners implements ISuiteListener, IExecutionListener, IInv
     // Getting the current date and time in the format "yyyy-MM-dd HH:mm:ss"
     private String getCurrentDateTime() {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    // Helper method to calculate test duration
+    private long getDuration(ITestResult result) {
+        return result.getEndMillis() - result.getStartMillis();
+    }
+
+    private String getStatus(ITestResult result) {
+        return switch (result.getStatus()) {
+            case ITestResult.SUCCESS -> "PASSED";
+            case ITestResult.FAILURE -> "FAILED";
+            case ITestResult.SKIP -> "SKIPPED";
+            default -> "UNKNOWN";
+        };
     }
 }

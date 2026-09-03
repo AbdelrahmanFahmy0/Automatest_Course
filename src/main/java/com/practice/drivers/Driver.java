@@ -6,10 +6,13 @@ import com.practice.utils.bots.BrowserBot;
 import com.practice.utils.dataReader.PropertyReader;
 import com.practice.utils.logs.LogsManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ThreadGuard;
 
 public class Driver {
 
     private final WebDriver driver;
+
+    private static final ThreadLocal<WebDriver> CURRENT = new ThreadLocal<>();
 
     // Constructor to initialize the WebDriver based on the specified browser type
     public Driver() {
@@ -17,8 +20,14 @@ public class Driver {
         LogsManager.info("Initializing driver for browser:", browser);
         Browser browserType = Browser.valueOf(browser.toUpperCase());
         AbstractDriver abstractDriver = browserType.getDriverFactory();
-        driver = abstractDriver.createDriver();
+        driver = ThreadGuard.protect(abstractDriver.createDriver());
+        CURRENT.set(driver);
         LogsManager.info("Driver initialized:", driver.getClass().getSimpleName());
+    }
+
+    // Get the Driver instance created on the current thread, or null if none exists
+    public static WebDriver get() {
+        return CURRENT.get();
     }
 
     // Bots
@@ -34,13 +43,9 @@ public class Driver {
         return new AssertionsBot(driver);
     }
 
-    // Get the WebDriver instance
-    public WebDriver get() {
-        return driver;
-    }
-
     // Quit the WebDriver instance
     public void quit() {
         browser().quit();
+        CURRENT.remove();
     }
 }
