@@ -1,6 +1,6 @@
 package com.practice.utils.bots;
 
-import com.practice.utils.WaitManager;
+import com.practice.utils.core.WaitManager;
 import com.practice.utils.logs.LogsManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;

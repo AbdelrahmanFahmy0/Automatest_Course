@@ -1,5 +1,6 @@
-package com.practice.utils;
+package com.practice.utils.core;
 
+import com.practice.utils.Indexes;
 import com.practice.utils.logs.LogsManager;
 import com.practice.utils.report.AllureAttachmentManager;
 import org.apache.commons.io.FileUtils;

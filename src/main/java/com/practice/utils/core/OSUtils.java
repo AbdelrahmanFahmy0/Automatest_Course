@@ -1,4 +1,4 @@
-package com.practice.utils;
+package com.practice.utils.core;
 
 import com.practice.utils.dataReader.PropertyReader;
 

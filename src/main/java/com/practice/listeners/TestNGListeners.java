@@ -2,8 +2,8 @@ package com.practice.listeners;
 
 import com.practice.drivers.Driver;
 import com.practice.drivers.UITest;
-import com.practice.utils.ScreenshotsManager;
-import com.practice.utils.FileUtils;
+import com.practice.utils.core.ScreenshotsManager;
+import com.practice.utils.core.FileUtils;
 import com.practice.utils.Indexes;
 import com.practice.utils.dataReader.PropertyReader;
 import com.practice.utils.logs.ConsoleOutputCapture;

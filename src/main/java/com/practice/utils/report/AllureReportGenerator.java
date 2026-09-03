@@ -1,7 +1,7 @@
 package com.practice.utils.report;
 
-import com.practice.utils.OSUtils;
-import com.practice.utils.TerminalUtils;
+import com.practice.utils.core.OSUtils;
+import com.practice.utils.core.TerminalUtils;
 import com.practice.utils.logs.LogsManager;
 import com.practice.utils.Indexes;
 import org.jsoup.Jsoup;

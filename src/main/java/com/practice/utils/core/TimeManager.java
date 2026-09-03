@@ -1,4 +1,4 @@
-package com.practice.utils;
+package com.practice.utils.core;
 
 public class TimeManager {
 

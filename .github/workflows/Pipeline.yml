@@ -9,75 +9,81 @@ on:
       - master
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 env:
   TARGET: "%regex[.*tests.*],com.practice.tests.**.**,com.practice.tests.**"
 
 jobs:
-  Chrome_Linux_Test:
-    runs-on: ubuntu-latest
-    permissions:
-      checks: write
-    steps:
-      - name: checkout Code
-        uses: actions/checkout@v5
+  Browser_Test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            browser: Chrome
+            suffix: chrome-linux
+          - os: windows-latest
+            browser: Edge
+            suffix: edge-windows
+    runs-on: ${{ matrix.os }}
 
-      - name: setup java
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+
+      - name: Setup Java
         uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '23'
+          cache: 'maven'
 
-      - name: setup maven
+      - name: Setup Maven
         uses: stCarolas/setup-maven@v5
         with:
           maven-version: 3.9.9
 
-      - name: Running Tests
-        continue-on-error: true
-        run: mvn -Dtest="${TARGET}" -DExecutionType="LocalHeadless" -DTargetBrowser="Chrome" clean test
-
-  Firefox_Windows_Test:
-    runs-on: windows-latest
-    permissions:
-      checks: write
-    steps:
-      - name: checkout Code
-        uses: actions/checkout@v7
-
-      - name: setup java
-        uses: actions/setup-java@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          distribution: 'zulu'
-          java-version: '23'
+          node-version: '22'
 
-      - name: setup maven
-        uses: stCarolas/setup-maven@v5
+      - name: Restore Allure history
+        uses: actions/cache/restore@v6
         with:
-          maven-version: 3.9.9
+          path: test-output/reports/.allure/history
+          key: allure-history-${{ matrix.suffix }}-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            allure-history-${{ matrix.suffix }}-${{ github.ref_name }}-
 
       - name: Running Tests
-        continue-on-error: true
-        run: mvn -Dtest="${TARGET}" -DExecutionType="LocalHeadless" -DTargetBrowser="Firefox" clean test
+        run: mvn -Dtest="${{ env.TARGET }}" -DExecutionType="LocalHeadless" -DTargetBrowser="${{ matrix.browser }}" clean test
 
-  Edge_Windows_Test:
-    runs-on: windows-latest
-    permissions:
-      checks: write
-    steps:
-      - name: checkout Code
-        uses: actions/checkout@v7
-
-      - name: setup java
-        uses: actions/setup-java@v5
+      - name: Save Allure history
+        if: always()
+        uses: actions/cache/save@v6
         with:
-          distribution: 'zulu'
-          java-version: '23'
+          path: test-output/reports/.allure/history
+          key: allure-history-${{ matrix.suffix }}-${{ github.ref_name }}-${{ github.run_id }}
 
-      - name: setup maven
-        uses: stCarolas/setup-maven@v5
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v7
         with:
-          maven-version: 3.9.9
+          name: allure-report-${{ matrix.suffix }}
+          path: test-output/reports/allure-report
+          retention-days: 30
 
-      - name: Running Tests
-        continue-on-error: true
-        run: mvn -Dtest="${TARGET}" -DExecutionType="LocalHeadless" -DTargetBrowser="Edge" clean test
+      - name: Upload Logs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-logs-${{ matrix.suffix }}
+          path: test-output/logs
+          retention-days: 30
